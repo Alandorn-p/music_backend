@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import send_file, search_results, download_file
+from api import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     # path('', send_file, name='send_file'),
-    path('search/<str:query>/', search_results),
-    path("download/", download_file)
+    path('search/<str:query>/', views.search_results),
+    path("download/", views.download_file),
+    path("test/", views.test_file),
+    path('get/<str:id>/', views.get_file)
+
 ]

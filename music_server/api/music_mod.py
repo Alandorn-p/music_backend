@@ -12,6 +12,13 @@ MAX_ELEMENTS = 10
 InvalidURLError = pytube.exceptions.RegexMatchError
 
 
+class MusicData:
+    def __init__(self, id, contents, title=None):
+        self.id = id
+        self.contents = contents
+        self.title = title
+
+
 class HiddenPrints:
     def __enter__(self):
         self._original_stdout = sys.stdout
@@ -20,6 +27,13 @@ class HiddenPrints:
     def __exit__(self, exc_type, exc_val, exc_tb):
         sys.stdout.close()
         sys.stdout = self._original_stdout
+
+
+def get_id(url):
+    """Returns the video id of a given youtube URL
+    Precondition: url is a string, valid url to a Youtube Video
+    """
+    return pytube.extract.video_id(url)
 
 
 def search(query):
@@ -35,8 +49,9 @@ def search(query):
             dict_t['publish_date'] = dict_t['publish_date'].strftime(
                 "%b %d, %Y")
             acc.append(dict_t)
-        json_dict = {'results': acc}
-        # ascii to False so
+        # add search term, incase user wants to confirm search
+        json_dict = {'search_term': query, 'results': acc}
+        # ascii to False for other languages
         return dumps(json_dict, ensure_ascii=False)
 
 
@@ -60,10 +75,12 @@ def download(url, path, filename=None):
     # check that file doesnt exist already
     file_exist_path = f'{path}\{filename}.mp3'
     if os.path.exists(file_exist_path):
-        return file_exist_path
+        pass
+        # return file_exist_path
     video = yt.streams.filter(only_audio=True).first()
     out_file = video.download(output_path=path, filename=f'{filename}.mp3')
-    return out_file
+    with open(out_file, "rb") as f:
+        return MusicData(yt.video_id, f.read(), yt.title)
     # print(type(out_file))
     # base, ext = os.path.splitext(out_file)
     # new_file = base+'.mp3'
