@@ -19,7 +19,7 @@ from api import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path('', send_file, name='send_file'),
+    path('', views.index),
     path('search/<str:query>/', views.search_results),
     path("download/", views.download_file),
     path("test/", views.test_file),

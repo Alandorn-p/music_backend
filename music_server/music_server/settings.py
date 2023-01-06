@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-i^*r48+pe42fbz)1^+6!7ckgynrz5)4p52h9$9^lr9c&8$u%3g
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+# my ip: http://172.20.10.21:8000/
 
 # Application definition
 
@@ -56,7 +56,7 @@ ROOT_URLCONF = "music_server.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ['templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

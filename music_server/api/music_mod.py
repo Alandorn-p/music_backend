@@ -4,7 +4,8 @@ import sys
 from json import dumps
 from django.utils.text import slugify
 
-ATTRIBUTES = ['title', 'author', 'watch_url', 'length', 'publish_date']
+ATTRIBUTES = ['title', 'author', 'watch_url',
+              'length', 'publish_date', 'thumbnail_url']
 MAX_ELEMENTS = 10
 
 # Code to disable print, since search is bugged?
@@ -56,9 +57,12 @@ def search(query):
 
 
 def name_converter(str):
-    from django.utils.text import slugify
     temp = slugify(str, allow_unicode=True)
     return temp.replace('-', ' ')
+
+
+def get_id(url):
+    return pytube.extract.video_id(url)
 
 
 def download(url, path, filename=None):
@@ -70,15 +74,15 @@ def download(url, path, filename=None):
     """
     link_in = url
     yt = pytube.YouTube(link_in)
-    if not filename:
-        filename = name_converter(yt.title)
+    # if not filename:
+    #     filename = name_converter(yt.title)
     # check that file doesnt exist already
-    file_exist_path = f'{path}\{filename}.mp3'
-    if os.path.exists(file_exist_path):
-        pass
-        # return file_exist_path
+    # filename = f'{path}\temp.mp3'
+    # if os.path.exists(file_exist_path):
+    #     pass
+    # return file_exist_path
     video = yt.streams.filter(only_audio=True).first()
-    out_file = video.download(output_path=path, filename=f'{filename}.mp3')
+    out_file = video.download(output_path=path, filename=f'temp.mp3')
     with open(out_file, "rb") as f:
         return MusicData(yt.video_id, f.read(), yt.title)
     # print(type(out_file))
