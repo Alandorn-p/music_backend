@@ -19,7 +19,7 @@ def send_file(request, path):
 
 
 def get_file(request, id):
-    obj = Song.objects.get(video_id=id)
+    obj = Song.objects.get(id=id)
     response = HttpResponse(obj.contents, content_type='application/mpeg')
     #response['Content-Disposition'] = 'attachment; filename="test_file.mp3"'
     late = f"{slugify(obj.title)[:10]}.mp3"
@@ -55,8 +55,9 @@ def test_file(request):
     return read_file(path)
 
 
-def http_response(song_obj, dup):
-    json_dict = {'id': song_obj.video_id, 'title': song_obj.title, 'new': dup}
+def http_response_post(song_obj, dup):
+    json_dict = {'id': song_obj.video_id, 'title': song_obj.title, 'new': dup,
+                 'url': f'get/{song_obj.id}/'}
     response_contents = json.dumps(json_dict, ensure_ascii=False)
     return HttpResponse(response_contents, content_type='application/json')
 
@@ -78,7 +79,7 @@ def download_file(request):
     query_set = Song.objects.filter(video_id=id)
     if query_set.exists():
         song_obj = query_set.first()
-        return http_response(song_obj, False)
+        return http_response_post(song_obj, False)
 
     try:
         obj = music_mod.download(url, MUSIC_PATH)
@@ -89,7 +90,7 @@ def download_file(request):
     song_obj = Song(
         video_id=obj.id, contents=obj.contents, title=obj.title)
     song_obj.save()
-    return http_response(song_obj, True)
+    return http_response_post(song_obj, True)
 
 
 def index(request):
