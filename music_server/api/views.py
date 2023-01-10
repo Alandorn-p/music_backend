@@ -22,12 +22,11 @@ def get_file(request, id):
     obj = Song.objects.get(id=id)
     response = HttpResponse(obj.contents, content_type='application/mpeg')
     #response['Content-Disposition'] = 'attachment; filename="test_file.mp3"'
-    late = f"{slugify(obj.title)[:10]}.mp3"
+    late = f"{slugify(obj.title)[:20]}.mp3"
     response['Content-Disposition'] = fr"attachment; filename={late}"
     #response['Content-Disposition'] = fr"attachment; filename*=UTF-8''{obj.title[:20]}.mp3"
 
     #response['Content-Disposition'] = f'attachment; filename="{obj.title[:10]}.mp3"'
-    print(response['Content-Disposition'])
     return response
 
 
@@ -68,12 +67,12 @@ def download_file(request):
     # if request.method != 'POST':
     #     return HttpResponseNotAllowed(('POST',))
     if request.body == b'':
-        print("here")
+        # print("here")
         return HttpResponseBadRequest("Error: Empty body")
     data = json.loads(request.body)
     url = data.get('url')
     if not url:
-        print("kmlwdka")
+        # print("kmlwdka")
         return HttpResponseBadRequest("URL key not provided in body")
     id = music_mod.get_id(url)
     query_set = Song.objects.filter(video_id=id)
@@ -84,7 +83,7 @@ def download_file(request):
     try:
         obj = music_mod.download(url, MUSIC_PATH)
     except music_mod.InvalidURLError:
-        print("flefmsef")
+        # print("flefmsef")
         return HttpResponseBadRequest("Not a valid youtube URL")
     print("success?")
     song_obj = Song(
