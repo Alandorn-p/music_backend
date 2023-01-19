@@ -56,8 +56,9 @@ def test_file(request):
 
 def http_response_post(song_obj, dup):
     json_dict = {'id': song_obj.video_id, 'title': song_obj.title, 'new': dup,
-                 'url': f'get/{song_obj.id}/'}
+                 'url': f'get/{song_obj.id}/', 'duration': song_obj.duration}
     response_contents = json.dumps(json_dict, ensure_ascii=False)
+    print("about to send ", response_contents)
     return HttpResponse(response_contents, content_type='application/json')
 
 
@@ -81,13 +82,15 @@ def download_file(request):
         return http_response_post(song_obj, False)
 
     try:
+        print("started downloading")
         obj = music_mod.download(url, MUSIC_PATH)
+        print('finished downloading')
     except music_mod.InvalidURLError:
         # print("flefmsef")
         return HttpResponseBadRequest("Not a valid youtube URL")
     print("success?")
     song_obj = Song(
-        video_id=obj.id, contents=obj.contents, title=obj.title)
+        video_id=obj.id, contents=obj.contents, title=obj.title, duration=obj.duration)
     song_obj.save()
     return http_response_post(song_obj, True)
 

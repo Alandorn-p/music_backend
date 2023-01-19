@@ -7,6 +7,9 @@ class Song(models.Model):
     title = models.CharField(max_length=255, default="")
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     contents = models.BinaryField()
+    duration = models.IntegerField()
 
     def __str__(self) -> str:
-        return self.title[:20]
+        if len(self.title) > 20:
+            return self.title[:20]+'...'
+        return self.title

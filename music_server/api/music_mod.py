@@ -6,7 +6,7 @@ from django.utils.text import slugify
 
 ATTRIBUTES = ['title', 'author', 'watch_url',
               'length', 'publish_date', 'thumbnail_url']
-MAX_ELEMENTS = 10
+MAX_ELEMENTS = 20
 
 # Code to disable print, since search is bugged?
 
@@ -14,10 +14,11 @@ InvalidURLError = pytube.exceptions.RegexMatchError
 
 
 class MusicData:
-    def __init__(self, id, contents, title=None):
+    def __init__(self, id, contents, title, duration):
         self.id = id
         self.contents = contents
         self.title = title
+        self.duration = duration
 
 
 class HiddenPrints:
@@ -41,19 +42,22 @@ def search(query):
     """Returns a json 
     Precondition: query is a string
     """
-    with HiddenPrints():
-        s = pytube.Search(query)
-        acc = []
-        for ele in s.results[:MAX_ELEMENTS]:
+    s = pytube.Search(query)
+    acc = []
+    for ele in s.results[:MAX_ELEMENTS]:
+        try:
+            # sometimes length doesnt work
             dict_t = {attr: getattr(ele, attr) for attr in ATTRIBUTES}
             # change publish_date to string so its serializable
             dict_t['publish_date'] = dict_t['publish_date'].strftime(
                 "%b %d, %Y")
             acc.append(dict_t)
-        # add search term, incase user wants to confirm search
-        json_dict = {'search_term': query, 'results': acc}
-        # ascii to False for other languages
-        return dumps(json_dict, ensure_ascii=False)
+        except:
+            pass
+    # add search term, incase user wants to confirm search
+    json_dict = {'search_term': query, 'results': acc}
+    # ascii to False for other languages
+    return dumps(json_dict, ensure_ascii=False)
 
 
 def name_converter(str):
@@ -82,9 +86,11 @@ def download(url, path, filename=None):
     #     pass
     # return file_exist_path
     video = yt.streams.filter(only_audio=True).first()
-    out_file = video.download(output_path=path, filename=f'temp.mp3')
+    out_file = video.download(
+        output_path=path, filename=f'{name_converter(yt.title)}.mp3')
+    print("downloaded at", out_file)
     with open(out_file, "rb") as f:
-        return MusicData(yt.video_id, f.read(), yt.title)
+        return MusicData(yt.video_id, f.read(), yt.title, yt.length)
     # print(type(out_file))
     # base, ext = os.path.splitext(out_file)
     # new_file = base+'.mp3'
