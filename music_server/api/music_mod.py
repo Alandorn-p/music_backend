@@ -3,10 +3,11 @@ import os
 import sys
 from json import dumps
 from django.utils.text import slugify
+# from pytube.innertube import InnerTube
 
 ATTRIBUTES = ['title', 'author', 'watch_url',
               'length', 'publish_date', 'thumbnail_url']
-MAX_ELEMENTS = 20
+MAX_ELEMENTS = 10
 
 # Code to disable print, since search is bugged?
 
@@ -45,15 +46,18 @@ def search(query):
     s = pytube.Search(query)
     acc = []
     for ele in s.results[:MAX_ELEMENTS]:
-        try:
+        # try:
             # sometimes length doesnt work
-            dict_t = {attr: getattr(ele, attr) for attr in ATTRIBUTES}
-            # change publish_date to string so its serializable
-            dict_t['publish_date'] = dict_t['publish_date'].strftime(
-                "%b %d, %Y")
-            acc.append(dict_t)
-        except:
-            pass
+        # print("LENGTH")
+        # print((ele.length))
+        dict_t = {attr: getattr(ele, attr) for attr in ATTRIBUTES}
+        # change publish_date to string so its serializable
+        dict_t['publish_date'] = dict_t['publish_date'].strftime(
+            "%b %d, %Y")
+        acc.append(dict_t)
+        # except Exception as e:
+        #     print(repr(e))
+        #     pass
     # add search term, incase user wants to confirm search
     json_dict = {'search_term': query, 'results': acc}
     # ascii to False for other languages
@@ -77,7 +81,7 @@ def download(url, path, filename=None):
     Precondition: filename (Optional) is a string to name the file (NOT including extension)
     """
     link_in = url
-    yt = pytube.YouTube(link_in)
+    yt = pytube.YouTube(link_in, use_oauth=True, allow_oauth_cache=True)
     # if not filename:
     #     filename = name_converter(yt.title)
     # check that file doesnt exist already

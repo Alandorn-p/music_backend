@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 # my ip: http://172.20.10.21:8000/
+
+# username: admin
 # password: djangopassword
 
 # Application definition
