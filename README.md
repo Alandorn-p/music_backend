@@ -131,6 +131,8 @@ Below is a quick description of the routes supported on the server. For more det
 
 
 
+
+
 <!-- ROADMAP -->
 ## Roadmap
 
@@ -139,6 +141,16 @@ Below is a quick description of the routes supported on the server. For more det
 - [ ] Create production environment
 - [ ] Deploy to cloud!!!
 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- CONTACT -->
+## Contact
+
+Al Palanuwech -  ap689@cornell.edu
+
+Github Link: [Alandorn-p](https://github.com/Alandorn-p)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
