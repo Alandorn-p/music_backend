@@ -1,0 +1,6 @@
+mobile player for music
+
+Start backend:
+python manage.py runserver 0.0.0.0:8000
+or 
+python manage.py runserver
