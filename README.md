@@ -34,7 +34,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 -->
-<h3 align="center">Music fetcher Backend</h3>
+<h3 align="center">Mobile Playlist App Backend</h3>
 
 <!--   <p align="center">
     project_description
@@ -53,7 +53,8 @@
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
+
+<!-- <details>
   <summary>Table of Contents</summary>
   <ol>
     <li>
@@ -76,16 +77,16 @@
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
-</details>
+</details> -->
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-This is the backend server for the music player mobile app. 
+This is a Django backend server for the music player mobile app (frontend link here), capable of retrieving YouTube videos based on user queries and converting them into mp3 files. It incorporates straightforward caching mechanisms for improved performance. Additionally, it can perform searches for a list of videos using specified keywords.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -94,10 +95,6 @@ This is the backend server for the music player mobile app.
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 
 ### Installation
 
