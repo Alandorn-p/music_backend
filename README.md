@@ -34,7 +34,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 -->
-<h3 align="center">Mobile Playlist App Backend</h3>
+<h1>Mobile Playlist App Backend</h1>
 
 <!--   <p align="center">
     project_description
@@ -86,7 +86,7 @@
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-This is a Django backend server for the music player mobile app (frontend link here), capable of retrieving YouTube videos based on user queries and converting them into mp3 files. It incorporates straightforward caching mechanisms for improved performance. Additionally, it can perform searches for a list of videos using specified keywords.
+This is a Django backend server for the music player mobile app ([frontend link here](https://github.com/Alandorn-p/mobile-music-player.git)), capable of retrieving YouTube videos based on user queries and converting them into mp3 files. It incorporates straightforward caching mechanisms for improved performance. Additionally, it can perform searches for a list of videos using specified keywords.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -116,11 +116,16 @@ This is a Django backend server for the music player mobile app (frontend link h
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Documentation
+Below is a quick description of the routes supported on the server. For more detailed documentation with examples see the home page of the server.
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+| Route | Description | 
+| --- | --- |
+| GET  /| Shows detailed documentation page with examples | 
+| GET  /search/{query} | Retrieves a list of videos from Youtube based on query | 
+| POST /download/ | Store a Youtube video with a given url to the database | 
+| GET /get/{id} | Retrieves a video with the specified Youtube id as an mp3 from the database (assumes video already in database) | 
 
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
